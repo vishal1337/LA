@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,6 +21,8 @@ import com.v15h4l.la.model.Alarm;
 
 public class HomeFragment extends ListFragment {
 
+    private final String TAG = HomeFragment.class.getSimpleName();
+
     AlarmDBHelper dbHelper;
     AlarmListAdapter mAdapter;
     Context mContext;
@@ -28,6 +31,8 @@ public class HomeFragment extends ListFragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         mContext = activity;
+
+        Log.i(TAG, "onAttach was Called");
 
         dbHelper = new AlarmDBHelper(mContext);
 
@@ -59,21 +64,33 @@ public class HomeFragment extends ListFragment {
         switch (item.getItemId()){
             case R.id.add_alarm:
                 startAlarmDetailsActivity(-1);
-                break;
+            break;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
     public void setAlarmEnabled(Long id, Boolean isChecked){
+
+        Log.i(TAG,"setAlarmEnabled was Called");
+
+        //Cancel All Alarms
+        AlarmManagerHelper.cancelAlarms(mContext);
+
         Alarm alarm = dbHelper.getAlarm(id);
         alarm.isEnabled = isChecked;
         dbHelper.updateAlarm(alarm);
         mAdapter.setAlarms(dbHelper.getAlarms());
         mAdapter.notifyDataSetChanged();
+
+        //ReSet Alarms
+        AlarmManagerHelper.setAlarms(mContext);
     }
 
     public void deleteAlarm(Long id){
+
+        Log.i(TAG,"deleteAlarm was Called");
+
         final Long alarmId = id;
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setMessage("Please Confirm!!!")
@@ -83,15 +100,25 @@ public class HomeFragment extends ListFragment {
                 .setPositiveButton("Proceed",new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        dbHelper.deleteAlarm(alarmId);
-                        mAdapter.setAlarms(dbHelper.getAlarms());
-                        mAdapter.notifyDataSetChanged();
+
+                    //Cancel All Alarms
+                    AlarmManagerHelper.cancelAlarms(mContext);
+
+                    dbHelper.deleteAlarm(alarmId);
+                    mAdapter.setAlarms(dbHelper.getAlarms());
+                    mAdapter.notifyDataSetChanged();
+
+                    //ReSet Alarms
+                    AlarmManagerHelper.setAlarms(mContext);
                     }
                 })
                 .show();
     }
 
     public void startAlarmDetailsActivity(long id){
+
+        Log.i(TAG,"startAlarmDetailsActivity was Called");
+
         Intent intent = new Intent(mContext,AlarmDetailsActivity.class);
         intent.putExtra("id",id);
         startActivityForResult(intent, 1);
@@ -116,6 +143,4 @@ public class HomeFragment extends ListFragment {
         super.onResume();
 
     }
-
-
 }

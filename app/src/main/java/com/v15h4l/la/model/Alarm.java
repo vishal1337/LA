@@ -19,7 +19,7 @@ public class Alarm {
 
     public long id = -1;
     public boolean isEnabled;
-    public String name;
+    public String name = "Alarm";
     public int timeHour;
     public int timeMinute;
     public boolean repeatingDays[];

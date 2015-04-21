@@ -41,6 +41,8 @@ public class AlarmDetailsActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm_details);
 
+        Log.i(TAG, "onCreate was Called");
+
         dbHelper = new AlarmDBHelper(this);
 
         timePicker = (TimePicker) findViewById(R.id.alarm_time);
@@ -59,6 +61,7 @@ public class AlarmDetailsActivity extends ActionBarActivity {
 
         if (id == -1){
             alarm = new Alarm();
+            txtToneSelection.setText(RingtoneManager.getRingtone(this,alarm.alarmTone).getTitle(this));
         }else {
             alarm = dbHelper.getAlarm(id);
 
@@ -94,7 +97,6 @@ public class AlarmDetailsActivity extends ActionBarActivity {
 
         if (resultCode == RESULT_OK){
             alarm.alarmTone = data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
-            Log.i(TAG,"RingTone received from intent "+alarm.alarmTone);
             txtToneSelection.setText(RingtoneManager.getRingtone(this,alarm.alarmTone).getTitle(this));
         }
     }
@@ -116,11 +118,17 @@ public class AlarmDetailsActivity extends ActionBarActivity {
             case R.id.save_alarm:
                 updateFromLayout();
 
+                //Cancel All Alarms
+                AlarmManagerHelper.cancelAlarms(this);
+
                 if (alarm.id < 0){
                     dbHelper.createAlarm(alarm);
                 }else{
                     dbHelper.updateAlarm(alarm);
                 }
+
+                //Cancel All Alarms
+                AlarmManagerHelper.setAlarms(this);
 
                 setResult(RESULT_OK);
                 finish();
@@ -131,10 +139,13 @@ public class AlarmDetailsActivity extends ActionBarActivity {
     }
 
     private void updateFromLayout(){
+
+        Log.i(TAG,"updateFromLayout was Called");
+
         alarm.isEnabled = true;
         alarm.timeHour = timePicker.getCurrentHour();
         alarm.timeMinute = timePicker.getCurrentMinute();
-        alarm.name = String.valueOf(alarmName.getText());
+        if (!String.valueOf(alarmName.getText()).equals("")){ alarm.name = String.valueOf(alarmName.getText()); }
         alarm.repeatWeekly = chkWeekly.isChecked();
         alarm.setRepeatingDays(Alarm.SUNDAY,chkSunday.isChecked());
         alarm.setRepeatingDays(Alarm.MONDAY,chkMonday.isChecked());

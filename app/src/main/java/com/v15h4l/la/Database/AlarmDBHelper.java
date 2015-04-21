@@ -54,10 +54,11 @@ public class AlarmDBHelper extends SQLiteOpenHelper {
 
     /**
      * method used to convert received cursor values into Alarm Object
-     * @param cursor
-     * @return Alarm object
      */
     private Alarm populateModel(Cursor cursor){
+
+        Log.i(TAG,"populateModel was Called");
+
         Alarm alarm = new Alarm();
 
         alarm.id = cursor.getLong(cursor.getColumnIndex(AlarmDB._ID));
@@ -85,6 +86,9 @@ public class AlarmDBHelper extends SQLiteOpenHelper {
      * @return ContentValues
      */
     private ContentValues populateContent(Alarm alarm){
+
+        Log.i(TAG,"populateContent was Called");
+
         ContentValues contentValues = new ContentValues();
 
         contentValues.put(AlarmDB.COLUMN_NAME_ALARM_NAME,alarm.name);
@@ -106,11 +110,16 @@ public class AlarmDBHelper extends SQLiteOpenHelper {
     }
 
     public Long createAlarm(Alarm alarm){
+
+        Log.i(TAG,"createAlarm was Called");
+
         //Insert alarm data into Database
         return getWritableDatabase().insert(AlarmDB.TABLE_NAME,null,populateContent(alarm));
     }
 
     public Alarm getAlarm(Long id){
+
+        Log.i(TAG,"getAlarm was Called");
 
         String SQL_SELECT_QUERY = "SELECT * FROM " + AlarmDB.TABLE_NAME + " WHERE " + AlarmDB._ID +" = " + id;
 
@@ -124,16 +133,25 @@ public class AlarmDBHelper extends SQLiteOpenHelper {
     }
 
     public int updateAlarm(Alarm alarm){
+
+        Log.i(TAG,"updateAlarm was Called");
+
         //Update alarm data
         return getWritableDatabase().update(AlarmDB.TABLE_NAME, populateContent(alarm), AlarmDB._ID + " =?", new String[] { String.valueOf(alarm.id) });
     }
 
     public int deleteAlarm(Long id){
+
+        Log.i(TAG,"deleteAlarm was Called");
+
         //Delete Alarm
         return getWritableDatabase().delete(AlarmDB.TABLE_NAME,AlarmDB._ID + " =?",new String[] { String.valueOf(id)});
     }
 
     public List<Alarm> getAlarms(){
+
+        Log.i(TAG,"getAlarms was Called");
+
         String SQL_SELECT_QUERY = "SELECT * FROM " + AlarmDB.TABLE_NAME;
 
         Cursor cursor = getReadableDatabase().rawQuery(SQL_SELECT_QUERY, null);

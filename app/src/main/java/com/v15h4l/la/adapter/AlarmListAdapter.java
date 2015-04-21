@@ -2,11 +2,11 @@ package com.v15h4l.la.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -22,12 +22,17 @@ import java.util.List;
  */
 public class AlarmListAdapter extends BaseAdapter {
 
+    private final String TAG = AlarmListAdapter.class.getSimpleName();
+
     AlarmDBHelper dbHelper;
     List<Alarm> mAlarms;
     Context mContext;
     HomeFragment fragment;
 
     public AlarmListAdapter(Context context, List<Alarm> alarms,HomeFragment fragment){
+
+        Log.i(TAG, "AlarmListAdapter constructor was called");
+
         this.fragment = fragment;
         dbHelper = new AlarmDBHelper(context);
         mAlarms = alarms;
@@ -35,6 +40,9 @@ public class AlarmListAdapter extends BaseAdapter {
     }
 
     public void setAlarms(List<Alarm> alarms){
+
+        Log.i(TAG,"setAlarms was Called");
+
         mAlarms = alarms;
     }
 
