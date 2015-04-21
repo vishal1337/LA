@@ -1,0 +1,48 @@
+<resources>
+    <string name="app_name">LA</string>
+    <string name="action_settings">Settings</string>
+    <string name="drawer_open">Slider Menu Opened</string>
+    <string name="drawer_close">Slider Menu Closed</string>
+
+    <!-- Nav Drawer Menu Items -->
+    <string-array name="nav_drawer_items">
+        <item >Home</item>
+        <item >Settings</item>
+        <item >About Us</item>
+
+    </string-array>
+
+    <!-- Nav Drawer List Item Icons -->
+    <!-- Keep them in order as the titles are in -->
+    <array name="nav_drawer_icons">
+        <item>@drawable/ic_home</item>
+        <item>@drawable/ic_settings</item>
+        <item>@drawable/ic_settings</item>
+
+    </array>
+
+    <!-- Content Description -->
+    <string name="desc_list_item_icon">Item Icon</string>
+    <string name="title_activity_splash">LA</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="add_alarm">New Alarm</string>
+
+    <!-- Alarm-->
+    <string name="No_Alarms_Message">No Alarms!</string>
+    <string name="menu_add_alarm">Add Alarm</string>
+
+    <string name="title_activity_alarm_details">AlarmDetailsActivity</string>
+
+    <string name="details_alarm_name">Alarm Name</string>
+    <string name="details_repeat_weekly">Repeat Weekly</string>
+    <string name="details_sunday">Sunday</string>
+    <string name="details_monday">Monday</string>
+    <string name="details_tuesday">Tuesday</string>
+    <string name="details_wednesday">Wednesday</string>
+    <string name="details_thursday">Thursday</string>
+    <string name="details_friday">Friday</string>
+    <string name="details_saturday">Saturday</string>
+    <string name="details_alarm_tone">Alarm Tone</string>
+    <string name="details_alarm_tone_default">Select an alarm tone</string>
+
+</resources>
