@@ -1,16 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <color name="my_fab_color">#ffffdf5c</color>
+    <color name="action_bar">#fffcbb0c</color>
     <color name="bg_gradient_start">#ffd0deff</color>
     <color name="bg_gradient_end">#ff3aff2d</color>
-`    <color name="list_item_title">#ffff3e00</color>
+    <color name="list_item_title">#ffff3e00</color>
     <color name="list_background">#ffffffff</color>
     <color name="list_background_pressed">#fffaffaf</color>
     <color name="list_divider">#ff000000</color>
     <color name="counter_text_bg">#ffff4600</color>
     <color name="counter_text_color">#ffffffff</color>
     <color name="white">#ffffffff</color>
+    <color name="black">#ff5f5f5f</color>
     <color name="holo_blue_light">#ff33b5e5</color>
     <color name="title_background_color">#000000</color>
+
+    <color name="font">#ff919191</color>
+
+    <color name="purple_50">#fff3e5f5</color>
+    <color name="purple_100">#ffe1bee7</color>
+    <color name="purple_200">#ffce94d8</color>
+    <color name="purple_300">#ffba69c8</color>
+    <color name="purple_400">#ffab48bc</color>
+    <color name="purple_500">#ff9d28b0</color>
+    <color name="purple_600">#ff8f25aa</color>
+    <color name="purple_700">#ff7c21a2</color>
+    <color name="purple_800">#ff6b1d9b</color>
 
 </resources>

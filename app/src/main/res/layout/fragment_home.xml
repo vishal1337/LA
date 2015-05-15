@@ -1,24 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@color/purple_50"
+        android:text="Good Evening!"
+        android:gravity="center"
+        android:textSize="30dp" />
 
     <ListView
         android:id="@android:id/list"
+        android:layout_below="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:longClickable="true" >
+        android:longClickable="true"
+        android:background="@color/white"
+        android:paddingTop="30px">
     </ListView>
+
+    <com.shamanland.fab.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_action_add"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignBottom="@id/header"
+        android:layout_marginBottom="@dimen/floating_action_button_margin_normal_minus"
+        android:layout_marginRight="@dimen/floating_action_button_margin_normal"
+        android:layout_marginEnd="@dimen/floating_action_button_margin_normal"
+        app:floatingActionButtonColor="@color/purple_800"
+        app:floatingActionButtonSize="normal" />
 
     <TextView
         android:id="@android:id/empty"
+        android:layout_below="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:textSize="20sp"
+        android:layout_height="match_parent"
+        android:padding="20dp"
+        android:textSize="20dp"
         android:textColor="@color/material_blue_grey_800"
         android:text="@string/No_Alarms_Message"
-        android:gravity="center_horizontal" />
+        android:gravity="center"
+        android:textAlignment="gravity" />
 
-</LinearLayout>
+</RelativeLayout>

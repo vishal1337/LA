@@ -20,6 +20,8 @@ import android.widget.ListView;
 import com.v15h4l.la.adapter.NavDrawerListAdapter;
 import com.v15h4l.la.model.NavDrawerItem;
 
+import net.danlew.android.joda.JodaTimeAndroid;
+
 public class MainActivity extends ActionBarActivity {
 
     private DrawerLayout mDrawerLayout;
@@ -41,8 +43,9 @@ public class MainActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-        getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.color.counter_text_bg)); //Change ActionBar Color
+        getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.color.purple_500)); //Change ActionBar Color
 
+		JodaTimeAndroid.init(this);
         mTitle = mDrawerTitle = getTitle();
 		navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);		// load slide menu items
 		navMenuIcons = getResources().obtainTypedArray(R.array.nav_drawer_icons);        // nav drawer icons from resources
@@ -198,8 +201,7 @@ public class MainActivity extends ActionBarActivity {
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
-		// Pass any configuration change to the drawer toggls
+		// Pass any configuration change to the drawer toggles
 		mDrawerToggle.onConfigurationChanged(newConfig);
 	}
-
 }

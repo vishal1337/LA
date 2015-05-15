@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.ViewParentCompatICS;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,7 +15,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.shamanland.fab.FloatingActionButton;
 import com.v15h4l.la.Database.AlarmDBHelper;
 import com.v15h4l.la.adapter.AlarmListAdapter;
 import com.v15h4l.la.model.Alarm;
@@ -38,6 +41,7 @@ public class HomeFragment extends ListFragment {
 
         mAdapter = new AlarmListAdapter(mContext,dbHelper.getAlarms(),HomeFragment.this);
         setListAdapter(mAdapter);
+
     }
 
     @Override
@@ -47,6 +51,13 @@ public class HomeFragment extends ListFragment {
 
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
+        FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startAlarmDetailsActivity(-1);
+            }
+        });
         return rootView;
     }
 
@@ -141,6 +152,5 @@ public class HomeFragment extends ListFragment {
     @Override
     public void onResume() {
         super.onResume();
-
     }
 }

@@ -31,7 +31,7 @@
     <string name="No_Alarms_Message">No Alarms!</string>
     <string name="menu_add_alarm">Add Alarm</string>
 
-    <string name="title_activity_alarm_details">AlarmDetailsActivity</string>
+    <string name="title_activity_alarm_details">Alarm</string>
 
     <string name="details_alarm_name">Alarm Name</string>
     <string name="details_repeat_weekly">Repeat Weekly</string>

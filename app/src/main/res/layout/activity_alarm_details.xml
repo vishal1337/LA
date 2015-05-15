@@ -2,165 +2,240 @@
     android:layout_height="fill_parent"
     android:layout_width="fill_parent"
     android:isScrollContainer="true"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/white"
+    android:fillViewport="false">
 
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools" 
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" 
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        tools:context=".AlarmDetailsActivity">
+        android:layout_height="wrap_content"
+        tools:context=".AlarmDetailsActivity"
+        android:padding="10sp">
 
-        <TimePicker
-            android:id="@+id/alarm_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true" />
+        <LinearLayout
+            android:id="@+id/layout_time"
+            android:layout_width="fill_parent"
+            android:layout_height="100sp"
+            android:orientation="horizontal"
+            android:textAlignment="gravity">
 
-        <EditText
-            android:id="@+id/alarm_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/alarm_time"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:ems="10"
-            android:hint="@string/details_alarm_name" />
+            <TextView
+                android:id="@+id/alarm_time"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@color/white"
+                android:text="00:00"
+                android:typeface="sans"
+                android:layout_gravity="center"
+                android:gravity="center_vertical|center_horizontal"
+                android:textSize="70sp"
+                android:textColor="@color/black"
+                android:layout_margin="10sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_name"
+            android:layout_below="@+id/layout_time"
+            android:layout_width="fill_parent"
+            android:layout_height="60sp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="25sp"
+                android:layout_height="25sp"
+                android:src="@drawable/rename"
+                android:layout_marginRight="13sp"
+                android:layout_marginEnd="13sp"
+                android:layout_marginLeft="10sp"
+                android:layout_marginStart="10sp"/>
+
+            <EditText
+                android:id="@+id/alarm_name"
+                android:layout_width="fill_parent"
+                android:layout_height="42sp"
+                android:background="@color/white"
+                android:layout_marginLeft="13sp"
+                android:layout_marginRight="13sp"
+                android:hint="Name"
+                android:typeface="sans"
+                android:layout_gravity="center_vertical"
+                android:textSize="15sp"
+                android:textColorHint="@color/font"
+                android:textColor="@color/font" />
+        </LinearLayout>
 
         <View
             android:id="@+id/divider1"
+            android:layout_below="@+id/layout_name"
             style="@style/Divider"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/alarm_name" />
+            android:layout_marginStart="63sp"
+            android:layout_marginLeft="63sp" />
 
-        <CheckBox
-            android:id="@+id/alarm_repeat_weekly"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
+
+        <LinearLayout
+            android:id="@+id/Layout_recurrence"
             android:layout_below="@+id/divider1"
-            android:checked="true"
-            android:text="@string/details_repeat_weekly" />
+            android:layout_width="fill_parent"
+            android:layout_height="60sp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="25sp"
+            android:layout_height="25sp"
+            android:src="@drawable/recurrence"
+            android:layout_marginLeft="10sp"
+            android:layout_marginStart="10sp"
+            android:layout_marginRight="13sp"
+            android:layout_marginEnd="13sp"/>
+
+        <TextView
+            android:id="@+id/alarm_recurrence"
+            android:layout_width="fill_parent"
+            android:layout_height="42sp"
+            android:background="@color/white"
+            android:layout_marginLeft="13sp"
+            android:layout_marginRight="13sp"
+            android:text="One-time alarm"
+            android:typeface="sans"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:textSize="15sp"
+            android:textColor="@color/font" />
+
+        </LinearLayout>
 
         <View
             android:id="@+id/divider2"
+            android:layout_below="@+id/Layout_recurrence"
             style="@style/Divider"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/alarm_repeat_weekly" />
+            android:layout_marginStart="63sp"
+            android:layout_marginLeft="63sp"/>
 
-        <CheckBox
-            android:id="@+id/alarm_repeat_sunday"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/divider2"
-            android:checked="true"
-            android:text="@string/details_sunday" />
-
-        <CheckBox
-            android:id="@+id/alarm_repeat_monday"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignRight="@+id/alarm_repeat_sunday"
-            android:layout_below="@+id/alarm_repeat_sunday"
-            android:checked="true"
-            android:text="@string/details_monday" />
-
-        <CheckBox
-            android:id="@+id/alarm_repeat_tuesday"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignRight="@+id/alarm_repeat_monday"
-            android:layout_below="@+id/alarm_repeat_monday"
-            android:checked="true"
-            android:text="@string/details_tuesday" />
-
-        <CheckBox
-            android:id="@+id/alarm_repeat_wednesday"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignRight="@+id/alarm_repeat_tuesday"
-            android:layout_below="@+id/alarm_repeat_tuesday"
-            android:checked="true"
-            android:text="@string/details_wednesday" />
-
-        <CheckBox
-            android:id="@+id/alarm_repeat_thursday"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignRight="@+id/alarm_repeat_wednesday"
-            android:layout_below="@+id/alarm_repeat_wednesday"
-            android:checked="true"
-            android:text="@string/details_thursday" />
-
-        <CheckBox
-            android:id="@+id/alarm_repeat_friday"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignRight="@+id/alarm_repeat_thursday"
-            android:layout_below="@+id/alarm_repeat_thursday"
-            android:checked="true"
-            android:text="@string/details_friday" />
-
-        <CheckBox
-            android:id="@+id/alarm_repeat_saturday"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignRight="@+id/alarm_repeat_friday"
-            android:layout_below="@+id/alarm_repeat_friday"
-            android:checked="true"
-            android:text="@string/details_saturday" />
-
-        <View
-            android:id="@+id/divider4"
-            style="@style/Divider"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/alarm_repeat_saturday" />
 
         <LinearLayout
-            android:id="@+id/alarm_ringtone_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/divider4"
-            android:background="@drawable/view_touch_selector"
-            android:orientation="vertical" >
+            android:id="@+id/layout_location"
+            android:layout_below="@+id/divider2"
+            android:layout_width="fill_parent"
+            android:layout_height="60sp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="25sp"
+                android:layout_height="25sp"
+                android:src="@drawable/location"
+                android:layout_marginLeft="10sp"
+                android:layout_marginStart="10sp"
+                android:layout_marginRight="13sp"
+                android:layout_marginEnd="13sp"/>
 
             <TextView
-                android:id="@+id/alarm_label_tone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:text="@string/details_alarm_tone"
-                android:textSize="18sp" />
+                android:id="@+id/alarm_location"
+                android:layout_width="fill_parent"
+                android:layout_height="42sp"
+                android:background="@color/white"
+                android:layout_marginLeft="13sp"
+                android:layout_marginRight="13sp"
+                android:text="Location"
+                android:typeface="sans"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:textSize="15sp"
+                android:textColor="@color/font" />
 
-            <TextView
-                android:id="@+id/alarm_label_tone_selection"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/activity_vertical_margin"
-                android:text="@string/details_alarm_tone_default"
-                android:textSize="14sp" />
         </LinearLayout>
 
         <View
             android:id="@+id/divider3"
+            android:layout_below="@+id/layout_location"
             style="@style/Divider"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/alarm_ringtone_container" />
+            android:layout_marginStart="63sp"
+            android:layout_marginLeft="63sp" />
+
+        <LinearLayout
+            android:id="@+id/layout_description"
+            android:layout_below="@+id/divider3"
+            android:layout_width="fill_parent"
+            android:layout_height="60sp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="25sp"
+                android:layout_height="25sp"
+                android:src="@drawable/description"
+                android:layout_marginRight="13sp"
+                android:layout_marginEnd="13sp"
+                android:layout_marginLeft="10sp"
+                android:layout_marginStart="10sp"/>
+
+            <EditText
+                android:id="@+id/alarm_description"
+                android:layout_width="fill_parent"
+                android:layout_height="42sp"
+                android:background="@color/white"
+                android:layout_marginLeft="13sp"
+                android:layout_marginRight="13sp"
+                android:hint="Description"
+                android:typeface="sans"
+                android:layout_gravity="center_vertical"
+                android:textSize="15sp"
+                android:textColorHint="@color/font"
+                android:textColor="@color/font" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/divider4"
+            android:layout_below="@+id/layout_description"
+            style="@style/Divider"
+            android:layout_marginStart="63sp"
+            android:layout_marginLeft="63sp" />
+
+        <LinearLayout
+            android:id="@+id/layout_tone"
+            android:layout_below="@+id/divider4"
+            android:layout_width="fill_parent"
+            android:layout_height="60sp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="25sp"
+                android:layout_height="25sp"
+                android:src="@drawable/tone"
+                android:layout_marginLeft="10sp"
+                android:layout_marginStart="10sp"
+                android:layout_marginRight="13sp"
+                android:layout_marginEnd="13sp"/>
+
+            <TextView
+                android:id="@+id/alarm_tone"
+                android:layout_width="fill_parent"
+                android:layout_height="42sp"
+                android:background="@color/white"
+                android:layout_marginLeft="13sp"
+                android:layout_marginRight="13sp"
+                android:text="Ringtone"
+                android:typeface="sans"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:textSize="15sp"
+                android:textColor="@color/font" />
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/divider5"
+            android:layout_below="@+id/layout_tone"
+            style="@style/Divider"
+            android:layout_marginStart="63sp"
+            android:layout_marginLeft="63sp" />
 
     </RelativeLayout>
 
