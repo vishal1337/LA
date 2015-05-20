@@ -4,22 +4,8 @@
     <string name="drawer_open">Slider Menu Opened</string>
     <string name="drawer_close">Slider Menu Closed</string>
 
-    <!-- Nav Drawer Menu Items -->
-    <string-array name="nav_drawer_items">
-        <item >Home</item>
-        <item >Settings</item>
-        <item >About Us</item>
-
-    </string-array>
-
-    <!-- Nav Drawer List Item Icons -->
-    <!-- Keep them in order as the titles are in -->
-    <array name="nav_drawer_icons">
-        <item>@drawable/ic_home</item>
-        <item>@drawable/ic_settings</item>
-        <item>@drawable/ic_settings</item>
-
-    </array>
+    <string name="alarms">Alarm</string>
+    <string name="locations">Locations</string>
 
     <!-- Content Description -->
     <string name="desc_list_item_icon">Item Icon</string>
@@ -44,5 +30,9 @@
     <string name="details_saturday">Saturday</string>
     <string name="details_alarm_tone">Alarm Tone</string>
     <string name="details_alarm_tone_default">Select an alarm tone</string>
+    <string name="title_activity_location_picker">Pick a Location</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_alarm_view">Alarm Details</string>
 
 </resources>

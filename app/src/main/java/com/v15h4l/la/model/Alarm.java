@@ -19,11 +19,17 @@ public class Alarm {
 
     public long id = -1;
     public boolean isEnabled;
-    public String name = "Alarm";
     public int timeHour;
     public int timeMinute;
+    public String name="";
+    public String recurrence="";
+    public String recurrenceMessage="" ;
+    public String location_name="";
+    public String location_lat = "0";
+    public String location_lon = "0";
+    public String description="";
     public boolean repeatingDays[];
-    public boolean repeatWeekly;
+    public boolean repeatWeekly = true;
     public Uri alarmTone = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
 
     public Alarm(){

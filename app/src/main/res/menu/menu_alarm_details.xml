@@ -6,7 +6,8 @@
     <item android:id="@+id/save_alarm" android:icon="@drawable/action_save"
         android:title="Save Alarm" app:showAsAction="ifRoom"/>
 
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_settings"
+        android:title="@string/action_settings"
+        app:showAsAction="never" />
 
 </menu>

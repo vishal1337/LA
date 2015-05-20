@@ -1,8 +1,11 @@
-package com.v15h4l.la;
+package com.v15h4l.la.alarm;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.media.RingtoneManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
@@ -16,12 +19,15 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.doomonafireball.betterpickers.radialtimepicker.RadialTimePickerDialog;
 import com.doomonafireball.betterpickers.recurrencepicker.EventRecurrence;
 import com.doomonafireball.betterpickers.recurrencepicker.EventRecurrenceFormatter;
 import com.doomonafireball.betterpickers.recurrencepicker.RecurrencePickerDialog;
 import com.v15h4l.la.Database.AlarmDBHelper;
+import com.v15h4l.la.R;
+import com.v15h4l.la.location.LocationPickerActivity;
 import com.v15h4l.la.model.Alarm;
 
 import org.joda.time.DateTime;
@@ -31,8 +37,11 @@ public class AlarmDetailsActivity extends ActionBarActivity
         implements RadialTimePickerDialog.OnTimeSetListener, RecurrencePickerDialog.OnRecurrenceSetListener {
 
     final static String TAG = AlarmDetailsActivity.class.getSimpleName();
+
     Alarm alarm;
     AlarmDBHelper dbHelper;
+
+    Context mContext;
 
     private static final String FRAG_TAG_TIME_PICKER = "timePickerDialogFragment";
     private static final String FRAG_TAG_RECUR_PICKER = "recurrencePickerDialogFragment";
@@ -41,57 +50,88 @@ public class AlarmDetailsActivity extends ActionBarActivity
     private String mRrule;
 
     private LinearLayout timePicker;
-    private LinearLayout tonePicker;
     private LinearLayout recurrencePicker;
-    private TextView time;
+    private LinearLayout locationPicker;
+    private LinearLayout tonePicker;
+    private TextView alarmTime;
     private EditText alarmName;
-    private TextView recurrence;
-    private TextView tone;
+    private TextView alarmRecurrence;
+    private TextView alarmLocationName;
+    private EditText alarmDescription;
+    private TextView alarmTone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm_details);
 
+        mContext = this;
+
         Log.i(TAG, "onCreate was Called");
-        getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.color.purple_500)); //Change ActionBar Color
+
         dbHelper = new AlarmDBHelper(this);
 
+        //Alarm Time Picker
         timePicker = (LinearLayout) findViewById(R.id.layout_time);
-        time = (TextView) findViewById(R.id.alarm_time);
+        alarmTime = (TextView) findViewById(R.id.alarm_time);
 
+        //Alarm Name
         alarmName = (EditText) findViewById(R.id.alarm_name);
 
+        //Alarm RepeatDays
         recurrencePicker = (LinearLayout) findViewById(R.id.Layout_recurrence);
-        recurrence = (TextView) findViewById(R.id.alarm_recurrence);
+        alarmRecurrence = (TextView) findViewById(R.id.alarm_recurrence);
 
+        //Alarm Location Picker
+        locationPicker = (LinearLayout) findViewById(R.id.layout_location);
+        alarmLocationName = (TextView) findViewById(R.id.alarm_location);
+
+        //Alarm Description
+        alarmDescription = (EditText) findViewById(R.id.alarm_description);
+
+        //Alarm Tone
         tonePicker = (LinearLayout) findViewById(R.id.layout_tone);
-        tone = (TextView) findViewById(R.id.alarm_tone);
+        alarmTone = (TextView) findViewById(R.id.alarm_tone);
 
+        //Check if Alarm is being edited
         long id = getIntent().getExtras().getLong("id");
 
+
+        alarm = new Alarm();
+
+        //Setting Alarm Details is found in Database
         if (id == -1){
-            alarm = new Alarm();
-            tone.setText(RingtoneManager.getRingtone(this,alarm.alarmTone).getTitle(this));
+            DateTime now = DateTime.now();
+            alarmTime.setText(String.format("%02d", now.getHourOfDay()) + ":" + String.format("%02d", now.getMinuteOfHour()));
+            alarm.timeHour = now.getHourOfDay();
+            alarm.timeMinute = now.getMinuteOfHour();
+            mRrule = "FREQ=WEEKLY;WKST=MO;BYDAY="+getDay();
+            onRecurrenceSet(mRrule);
+            alarmTone.setText(RingtoneManager.getRingtone(this,alarm.alarmTone).getTitle(this));
+
         }else {
             alarm = dbHelper.getAlarm(id);
-            time.setText(alarm.timeHour+":"+String.format("%02d", alarm.timeMinute));
-            alarmName.setText(alarm.name);
-            tone.setText(RingtoneManager.getRingtone(this,alarm.alarmTone).getTitle(this));
+            alarmTime.setText(String.format("%02d", alarm.timeHour) + ":" + String.format("%02d", alarm.timeMinute));
+            if (!alarm.name.isEmpty()){ alarmName.append(alarm.name); }
+            mRrule = alarm.recurrence;
+            onRecurrenceSet(mRrule);
+            if (!alarm.location_name.isEmpty()) { alarmLocationName.setText(alarm.location_name); }
+            if (!alarm.description.isEmpty()) { alarmDescription.append(alarm.description); }
+            alarmTone.setText(RingtoneManager.getRingtone(this,alarm.alarmTone).getTitle(this));
         }
 
-
+        //Alarm Time Picker Dialog
         timePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DateTime now = DateTime.now();
                 RadialTimePickerDialog timePickerDialog = RadialTimePickerDialog
-                        .newInstance(AlarmDetailsActivity.this, now.getHourOfDay(), now.getMinuteOfHour(),
+                        .newInstance(AlarmDetailsActivity.this, alarm.timeHour, alarm.timeMinute,
                                 DateFormat.is24HourFormat(AlarmDetailsActivity.this));
                 timePickerDialog.show(getSupportFragmentManager(), FRAG_TAG_TIME_PICKER);
             }
         });
 
+        //Alarm Repeat Days picker Dialog
         recurrencePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,6 +157,26 @@ public class AlarmDetailsActivity extends ActionBarActivity
             }
         });
 
+        //Alarm Location picker
+        locationPicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(isConnectedToInternet())
+                {
+                    Intent intent = new Intent(AlarmDetailsActivity.this, LocationPickerActivity.class);
+                    startActivityForResult(intent, 0);
+
+                }else{
+
+                    Toast.makeText(mContext,"No Connectivity",Toast.LENGTH_LONG).show();
+
+                }
+
+            }
+        });
+
+        //Alarm Tone picker Dialog
         tonePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,7 +186,7 @@ public class AlarmDetailsActivity extends ActionBarActivity
                 intent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, true);
                 intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_ALARM);
                 intent.putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI, alarm.alarmTone);
-                startActivityForResult(intent,0);
+                startActivityForResult(intent,1);
             }
         });
     }
@@ -135,9 +195,30 @@ public class AlarmDetailsActivity extends ActionBarActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == RESULT_OK){
-            alarm.alarmTone = data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
-            tone.setText(RingtoneManager.getRingtone(this,alarm.alarmTone).getTitle(this));
+        switch (requestCode) {
+
+            case 0:
+                if (resultCode == RESULT_OK) {
+
+                    String locationName = data.getStringExtra("locationName");
+
+                    alarm.location_lat = String.valueOf(data.getDoubleExtra("LocationLat", 0));
+                    alarm.location_lon = String.valueOf(data.getDoubleExtra("LocationLon",0));
+
+                    if (!locationName.isEmpty()) {
+                        alarm.location_name = locationName;
+                        alarmLocationName.setText(locationName);
+                    }
+
+                }
+            break;
+
+            case 1:
+                if (resultCode == RESULT_OK) {
+                    alarm.alarmTone = data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
+                    alarmTone.setText(RingtoneManager.getRingtone(this, alarm.alarmTone).getTitle(this));
+                }
+            break;
         }
     }
 
@@ -180,14 +261,13 @@ public class AlarmDetailsActivity extends ActionBarActivity
 
     private void updateFromLayout(){
 
-        Log.i(TAG,"updateFromLayout was Called");
-/*
-        alarm.isEnabled = true;
-        alarm.timeHour = timePicker.getCurrentHour();
-        alarm.timeMinute = timePicker.getCurrentMinute();
-        if (!String.valueOf(alarmName.getText()).equals("")){ alarm.name = String.valueOf(alarmName.getText()); }
+        Log.i(TAG, "updateFromLayout was Called");
 
-*/    }
+        alarm.isEnabled = true;
+        if (!String.valueOf(alarmName.getText()).equals("")){ alarm.name = String.valueOf(alarmName.getText()); }
+        if (!String.valueOf(alarmDescription.getText()).equals("")){ alarm.description = String.valueOf(alarmDescription.getText()); }
+
+    }
 
     @Override
     protected void onResume() {
@@ -202,24 +282,69 @@ public class AlarmDetailsActivity extends ActionBarActivity
 
     @Override
     public void onTimeSet(RadialTimePickerDialog dialog, int hourOfDay, int minute) {
-        time.setText(String.format("%02d", hourOfDay) + ":" + String.format("%02d", minute));
+
+        alarm.timeHour = hourOfDay;
+        alarm.timeMinute = minute;
+        alarmTime.setText(String.format("%02d", hourOfDay) + ":" + String.format("%02d", minute));
     }
 
     @Override
     public void onRecurrenceSet(String rRule) {
         mRrule = rRule;
         if (mRrule != null) {
+            alarm.recurrence = rRule;
+            Log.v("AlarmDetailsActivity", "rRule: "+rRule);
             mEventRecurrence.parse(mRrule);
+        }else{
+            alarm.recurrence = null;
         }
         populateRepeats();
     }
     private void populateRepeats() {
         Resources r = getResources();
-        String repeatString = "";
         if (!TextUtils.isEmpty(mRrule)) {
-            repeatString = EventRecurrenceFormatter.getRepeatString(this, r, mEventRecurrence, true);
+            alarm.recurrenceMessage=EventRecurrenceFormatter.getRepeatString(this, r, mEventRecurrence, true);
+            alarmRecurrence.setText(alarm.recurrenceMessage);
+        }else {
+            alarm.recurrenceMessage = "Never";
+            alarmRecurrence.setText(alarm.recurrenceMessage);
         }
+    }
 
-        recurrence.setText(repeatString);
+    public boolean isConnectedToInternet(){
+        ConnectivityManager connectivity = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivity != null)
+        {
+            NetworkInfo[] info = connectivity.getAllNetworkInfo();
+            if (info != null) {
+                for (int i = 0; i < info.length; i++) {
+                    if (info[i].getState() == NetworkInfo.State.CONNECTED) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public String getDay(){
+
+        switch (DateTime.now().getDayOfWeek()){
+            case 1:
+                return "MO";
+            case 2:
+                return "TU";
+            case 3:
+                return "WE";
+            case 4:
+                return "TH";
+            case 5:
+                return "FR";
+            case 6:
+                return "SA";
+            case 7:
+                return "SU";
+        }
+        return "";
     }
 }

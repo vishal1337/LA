@@ -1,7 +1,6 @@
 package com.v15h4l.la.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +10,7 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.v15h4l.la.Database.AlarmDBHelper;
-import com.v15h4l.la.HomeFragment;
+import com.v15h4l.la.Fragments.HomeFragment;
 import com.v15h4l.la.R;
 import com.v15h4l.la.model.Alarm;
 
@@ -80,9 +79,8 @@ public class AlarmListAdapter extends BaseAdapter {
 
         final Alarm alarm = (Alarm) getItem(position);
 
-        ((TextView) convertView.findViewById(R.id.alarm_item_time)).setText(String.format("%02d : %02d",alarm.timeHour,alarm.timeMinute));
-        ((TextView) convertView.findViewById(R.id.alarm_item_name)).setText(alarm.name);
-
+        ((TextView) convertView.findViewById(R.id.alarm_item_time)).setText(String.format("%02d:%02d",alarm.timeHour,alarm.timeMinute));
+        if(!alarm.name.isEmpty()){ ((TextView) convertView.findViewById(R.id.alarm_item_name)).setText(alarm.name); }
         updateTextColor((TextView) convertView.findViewById(R.id.alarm_item_sunday), alarm.getRepeatingDay(Alarm.SUNDAY));
         updateTextColor((TextView) convertView.findViewById(R.id.alarm_item_monday), alarm.getRepeatingDay(Alarm.MONDAY));
         updateTextColor((TextView) convertView.findViewById(R.id.alarm_item_tuesday), alarm.getRepeatingDay(Alarm.TUESDAY));
@@ -105,7 +103,7 @@ public class AlarmListAdapter extends BaseAdapter {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragment.startAlarmDetailsActivity(alarm.id);
+                fragment.startAlarmViewActivity(alarm.id);
             }
         });
 
@@ -123,9 +121,9 @@ public class AlarmListAdapter extends BaseAdapter {
 
     public void updateTextColor(TextView textView, Boolean isOn){
         if (isOn){
-            textView.setTextColor(Color.RED);
+            textView.setTextColor(mContext.getResources().getColor(R.color.time_light));
         }else {
-            textView.setTextColor(Color.LTGRAY);
+            textView.setTextColor(mContext.getResources().getColor(R.color.purple_100));
         }
     }
 }

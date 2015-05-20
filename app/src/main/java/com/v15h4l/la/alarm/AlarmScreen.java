@@ -1,4 +1,4 @@
-package com.v15h4l.la;
+package com.v15h4l.la.alarm;
 
 import android.app.Activity;
 import android.content.Context;
@@ -13,6 +13,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.v15h4l.la.R;
 
 
 public class AlarmScreen extends Activity {
@@ -42,7 +44,7 @@ public class AlarmScreen extends Activity {
         tvName.setText(name);
 
         TextView tvTime = (TextView) findViewById(R.id.alarm_screen_time);
-        tvTime.setText(timeHour +" : "+ timeMinute);
+        tvTime.setText(String.format("%02d",timeHour) +":"+String.format("%02d",timeMinute));
 
         Button dismissButton = (Button) findViewById(R.id.alarm_screen_button);
         dismissButton.setOnClickListener(new View.OnClickListener() {

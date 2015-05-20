@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <View
@@ -20,7 +21,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:longClickable="true"
-        android:background="@color/white"
         android:paddingTop="30px">
     </ListView>
 
@@ -35,7 +35,6 @@
         android:layout_marginBottom="@dimen/floating_action_button_margin_normal_minus"
         android:layout_marginRight="@dimen/floating_action_button_margin_normal"
         android:layout_marginEnd="@dimen/floating_action_button_margin_normal"
-        app:floatingActionButtonColor="@color/purple_800"
         app:floatingActionButtonSize="normal" />
 
     <TextView
@@ -45,7 +44,6 @@
         android:layout_height="match_parent"
         android:padding="20dp"
         android:textSize="20dp"
-        android:textColor="@color/material_blue_grey_800"
         android:text="@string/No_Alarms_Message"
         android:gravity="center"
         android:textAlignment="gravity" />

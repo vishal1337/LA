@@ -30,8 +30,12 @@ public class AlarmDBHelper extends SQLiteOpenHelper {
             AlarmDB.COLUMN_NAME_ALARM_IS_ENABLED + " BOOLEAN," +
             AlarmDB.COLUMN_NAME_ALARM_TIME_HOUR + " INTEGER," +
             AlarmDB.COLUMN_NAME_ALARM_TIME_MINUTE + " INTEGER," +
-            AlarmDB.COLUMN_NAME_ALARM_REPEAT_DAYS + " TEXT," +
-            AlarmDB.COLUMN_NAME_ALARM_REPEAT_WEEKLY + " BOOLEAN," +
+            AlarmDB.COLUMN_NAME_ALARM_RECURRENCE + " TEXT," +
+            AlarmDB.COLUMN_NAME_ALARM_RECURRENCE_MESSAGE + " TEXT," +
+            AlarmDB.COLUMN_NAME_ALARM_LOCATION_NAME + " TEXT," +
+            AlarmDB.COLUMN_NAME_ALARM_LOCATION_LAT + " TEXT," +
+            AlarmDB.COLUMN_NAME_ALARM_LOCATION_LON + " TEXT," +
+            AlarmDB.COLUMN_NAME_ALARM_DESCRIPTION + " TEXT," +
             AlarmDB.COLUMN_NAME_ALARM_TONE + " TEXT"+
     ")";
 
@@ -62,21 +66,21 @@ public class AlarmDBHelper extends SQLiteOpenHelper {
         Alarm alarm = new Alarm();
 
         alarm.id = cursor.getLong(cursor.getColumnIndex(AlarmDB._ID));
-        alarm.name = cursor.getString(cursor.getColumnIndex(AlarmDB.COLUMN_NAME_ALARM_NAME));
         alarm.isEnabled = cursor.getInt(cursor.getColumnIndex(AlarmDB.COLUMN_NAME_ALARM_IS_ENABLED)) != 0;
         alarm.timeHour = cursor.getInt(cursor.getColumnIndex(AlarmDB.COLUMN_NAME_ALARM_TIME_HOUR));
         alarm.timeMinute = cursor.getInt(cursor.getColumnIndex(AlarmDB.COLUMN_NAME_ALARM_TIME_MINUTE));
-        alarm.repeatWeekly = cursor.getInt(cursor.getColumnIndex(AlarmDB.COLUMN_NAME_ALARM_REPEAT_WEEKLY)) != 0;
+        alarm.name = cursor.getString(cursor.getColumnIndex(AlarmDB.COLUMN_NAME_ALARM_NAME));
+        alarm.recurrence = cursor.getString(cursor.getColumnIndex(AlarmDB.COLUMN_NAME_ALARM_RECURRENCE));
+        alarm.recurrenceMessage = cursor.getString(cursor.getColumnIndex(AlarmDB.COLUMN_NAME_ALARM_RECURRENCE_MESSAGE));
+        alarm.location_name = cursor.getString(cursor.getColumnIndex(AlarmDB.COLUMN_NAME_ALARM_LOCATION_NAME));
+        alarm.location_lat = cursor.getString(cursor.getColumnIndex(AlarmDB.COLUMN_NAME_ALARM_LOCATION_LAT));
+        alarm.location_lon = cursor.getString(cursor.getColumnIndex(AlarmDB.COLUMN_NAME_ALARM_LOCATION_LON));
+        alarm.description = cursor.getString(cursor.getColumnIndex(AlarmDB.COLUMN_NAME_ALARM_DESCRIPTION));
         alarm.alarmTone = Uri.parse(cursor.getString(cursor.getColumnIndex(AlarmDB.COLUMN_NAME_ALARM_TONE)));
 
-        String[] repeatingDays = cursor.getString(cursor.getColumnIndex(AlarmDB.COLUMN_NAME_ALARM_REPEAT_DAYS)).split(",");
+        String recurrence = cursor.getString(cursor.getColumnIndex(AlarmDB.COLUMN_NAME_ALARM_RECURRENCE));
 
-        Log.i(TAG,repeatingDays.length+"");
-
-        for (int i = 0; i < repeatingDays.length; i++){
-            alarm.setRepeatingDays(i,repeatingDays[i].equals("true"));
-        }
-
+        setRecurrence(recurrence,alarm);
         return alarm;
     }
 
@@ -87,31 +91,28 @@ public class AlarmDBHelper extends SQLiteOpenHelper {
      */
     private ContentValues populateContent(Alarm alarm){
 
-        Log.i(TAG,"populateContent was Called");
+        Log.i(TAG, "populateContent was Called");
 
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put(AlarmDB.COLUMN_NAME_ALARM_NAME,alarm.name);
         contentValues.put(AlarmDB.COLUMN_NAME_ALARM_IS_ENABLED,alarm.isEnabled);
-        contentValues.put(AlarmDB.COLUMN_NAME_ALARM_TIME_HOUR,alarm.timeHour);
+        contentValues.put(AlarmDB.COLUMN_NAME_ALARM_NAME,alarm.name);
+        contentValues.put(AlarmDB.COLUMN_NAME_ALARM_TIME_HOUR, alarm.timeHour);
         contentValues.put(AlarmDB.COLUMN_NAME_ALARM_TIME_MINUTE,alarm.timeMinute);
-        contentValues.put(AlarmDB.COLUMN_NAME_ALARM_REPEAT_WEEKLY,alarm.repeatWeekly);
-        contentValues.put(AlarmDB.COLUMN_NAME_ALARM_TONE,String.valueOf(alarm.alarmTone));
-
-        String repeatingDays = "";
-
-        for (int i = 0; i < 7; i++){
-            repeatingDays+=alarm.getRepeatingDay(i)+",";
-        }
-
-        contentValues.put(AlarmDB.COLUMN_NAME_ALARM_REPEAT_DAYS,repeatingDays);
+        contentValues.put(AlarmDB.COLUMN_NAME_ALARM_RECURRENCE,alarm.recurrence);
+        contentValues.put(AlarmDB.COLUMN_NAME_ALARM_RECURRENCE_MESSAGE,alarm.recurrenceMessage);
+        contentValues.put(AlarmDB.COLUMN_NAME_ALARM_LOCATION_NAME,alarm.location_name);
+        contentValues.put(AlarmDB.COLUMN_NAME_ALARM_LOCATION_LAT,alarm.location_lat);
+        contentValues.put(AlarmDB.COLUMN_NAME_ALARM_LOCATION_LON,alarm.location_lon);
+        contentValues.put(AlarmDB.COLUMN_NAME_ALARM_DESCRIPTION,alarm.description);
+        contentValues.put(AlarmDB.COLUMN_NAME_ALARM_TONE, String.valueOf(alarm.alarmTone));
 
         return contentValues;
     }
 
     public Long createAlarm(Alarm alarm){
 
-        Log.i(TAG,"createAlarm was Called");
+        Log.i(TAG, "createAlarm was Called");
 
         //Insert alarm data into Database
         return getWritableDatabase().insert(AlarmDB.TABLE_NAME,null,populateContent(alarm));
@@ -145,7 +146,7 @@ public class AlarmDBHelper extends SQLiteOpenHelper {
         Log.i(TAG,"deleteAlarm was Called");
 
         //Delete Alarm
-        return getWritableDatabase().delete(AlarmDB.TABLE_NAME,AlarmDB._ID + " =?",new String[] { String.valueOf(id)});
+        return getWritableDatabase().delete(AlarmDB.TABLE_NAME, AlarmDB._ID + " =?", new String[]{String.valueOf(id)});
     }
 
     public List<Alarm> getAlarms(){
@@ -167,5 +168,86 @@ public class AlarmDBHelper extends SQLiteOpenHelper {
         }
 
         return null;
+    }
+
+    public void setRecurrence(String recurrence,Alarm alarm) {
+        String FREQ = "";
+        String WKST;
+        String BYDAY = "";
+
+        if(recurrence != null) {
+            String[] category = recurrence.toUpperCase().split(";");
+            int categoryLength = category.length;
+
+            for (int i = 0; i < categoryLength; i++) {
+                String[] tmp = null;
+                tmp = category[i].split("=");
+                switch (tmp[0]) {
+
+                    case "FREQ":
+                        FREQ = tmp[1];
+                        break;
+
+                    case "WKST":
+                        WKST = tmp[1];
+                        break;
+
+                    case "BYDAY":
+                        BYDAY = tmp[1];
+                        break;
+                }
+            }
+        }
+        if (FREQ.equals("WEEKLY")) {
+            alarm.repeatWeekly = true;
+        }else {
+            alarm.repeatWeekly = false;
+        }
+
+        String[] weekDays = BYDAY.split(",");
+
+        int cntr=0;
+
+        for (int i = 0; i < weekDays.length; i++) {
+            switch (weekDays[i]) {
+                case "SU":
+                    alarm.setRepeatingDays(0, true);
+                    cntr++;
+                    break;
+
+                case "MO":
+                    alarm.setRepeatingDays(1, true);
+                    cntr++;
+                    break;
+
+                case "TU":
+                    alarm.setRepeatingDays(2, true);
+                    cntr++;
+                    break;
+
+                case "WE":
+                    alarm.setRepeatingDays(3, true);
+                    cntr++;
+                    break;
+
+                case "TH":
+                    alarm.setRepeatingDays(4, true);
+                    cntr++;
+                    break;
+
+                case "FR":
+                    alarm.setRepeatingDays(5, true);
+                    cntr++;
+                    break;
+
+                case "SA":
+                    alarm.setRepeatingDays(6, true);
+                    cntr++;
+                    break;
+            }
+        }
+        if (cntr == 0){
+            alarm.isEnabled = false;
+        }
     }
 }

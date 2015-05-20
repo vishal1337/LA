@@ -1,4 +1,4 @@
-package com.v15h4l.la;
+package com.v15h4l.la.alarm;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.v15h4l.la.Database.AlarmDBHelper;
 import com.v15h4l.la.model.Alarm;
+import com.v15h4l.la.services.AlarmService;
 
 import java.util.Calendar;
 import java.util.List;
@@ -26,11 +27,13 @@ public class AlarmManagerHelper extends BroadcastReceiver {
     public static final String NAME = "name";
     public static final String TIME_HOUR = "timeHour";
     public static final String TIME_MINUTE = "timeMinute";
+    public static final String DEST_LAT= "destLat";
+    public static final String DEST_LON = "destLon";
     public static final String TONE = "alarmTone";
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        setAlarms(context);
+     //   setAlarms(context);
     }
 
     public static void setAlarms(Context context){
@@ -58,6 +61,7 @@ public class AlarmManagerHelper extends BroadcastReceiver {
                     final int nowDay = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
                     final int nowHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
                     final int nowMinute = Calendar.getInstance().get(Calendar.MINUTE);
+
                     boolean alarmSet = false;
 
                     //First check if it's later in the week
@@ -67,7 +71,7 @@ public class AlarmManagerHelper extends BroadcastReceiver {
                                 !(dayOfWeek == nowDay && alarm.timeHour == nowHour && alarm.timeMinute <= nowMinute)) {
                             calendar.set(Calendar.DAY_OF_WEEK, dayOfWeek);
 
-                            Log.i(TAG,"Alarm will Occur later This Week");
+                            Log.i(TAG,"Alarm will Occur later This Week, Repeat Alarm: "+alarm.repeatWeekly);
 
                             setAlarm(context, calendar, pendingIntent);
                             alarmSet = true;
@@ -80,14 +84,13 @@ public class AlarmManagerHelper extends BroadcastReceiver {
                         for (int dayOfWeek = Calendar.SUNDAY; dayOfWeek <= Calendar.SATURDAY; dayOfWeek++) {
                             if (alarm.getRepeatingDay(dayOfWeek - 1) && dayOfWeek <= nowDay && alarm.repeatWeekly) {
                                 calendar.set(Calendar.DAY_OF_WEEK, dayOfWeek);
-
-                                Log.i(TAG, "Alarm will not Occur later This Week");
+                                calendar.add(Calendar.WEEK_OF_YEAR,1);
+                                Log.i(TAG, "Alarm will not Occur later This Week, Repeat Alarm: "+alarm.repeatWeekly);
                                 setAlarm(context, calendar, pendingIntent);
                                 break;
                             }
                         }
                     }
-
                 }
             }
         }
@@ -121,12 +124,12 @@ public class AlarmManagerHelper extends BroadcastReceiver {
         }else {
             alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
         }
-        Log.i(TAG,"Alarm Will Go Off on "+calendar.getTime());
+        Log.i(TAG, "Alarm Will Go Off on " + calendar.getTime());
     }
 
     private static void cancelAlarm(Context context, PendingIntent pendingIntent){
 
-        Log.i(TAG,"cancelAlarm was Called");
+        Log.i(TAG, "cancelAlarm was Called");
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.cancel(pendingIntent);
@@ -134,15 +137,18 @@ public class AlarmManagerHelper extends BroadcastReceiver {
 
     private static PendingIntent createPendingIntent(Context context, Alarm alarm){
 
-        Log.i(TAG,"createPendingIntent was Called");
+        Log.i(TAG, "createPendingIntent was Called");
 
         Intent intent = new Intent(context,AlarmService.class);
         intent.putExtra(ID,alarm.id);
         intent.putExtra(NAME,alarm.name);
         intent.putExtra(TIME_HOUR,alarm.timeHour);
         intent.putExtra(TIME_MINUTE,alarm.timeMinute);
-        intent.putExtra(TONE,String.valueOf(alarm.alarmTone));
+        intent.putExtra(DEST_LAT,Double.valueOf(alarm.location_lat));
+        intent.putExtra(DEST_LON,Double.valueOf(alarm.location_lon));
+        intent.putExtra(TONE, String.valueOf(alarm.alarmTone));
 
         return PendingIntent.getService(context,(int) alarm.id,intent,PendingIntent.FLAG_UPDATE_CURRENT);
     }
+
 }

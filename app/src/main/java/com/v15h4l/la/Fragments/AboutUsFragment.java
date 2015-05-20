@@ -1,10 +1,12 @@
-package com.v15h4l.la;
+package com.v15h4l.la.Fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.v15h4l.la.R;
 
 public class AboutUsFragment extends Fragment {
 

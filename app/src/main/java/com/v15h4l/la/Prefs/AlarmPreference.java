@@ -23,7 +23,7 @@ public class AlarmPreference {
 
     // By Default returns 5 as area radius
     public int getRadius(){
-        return sharedPreferences.getInt(RADIUS, 5);
+        return sharedPreferences.getInt(RADIUS, 500);
     }
 
     public void setRadius(int radius){

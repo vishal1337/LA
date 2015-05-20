@@ -3,21 +3,20 @@
     android:layout_width="fill_parent"
     android:isScrollContainer="true"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:fillViewport="false"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:fillViewport="false">
 
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools" 
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".AlarmDetailsActivity"
-        android:padding="10sp">
+        tools:context="com.v15h4l.la.alarm.AlarmViewActivity">
 
         <LinearLayout
             android:id="@+id/layout_time"
             android:layout_width="fill_parent"
-            android:layout_height="100sp"
+            android:layout_height="150sp"
             android:orientation="horizontal"
             android:textAlignment="gravity">
 
@@ -30,7 +29,7 @@
                 android:typeface="sans"
                 android:layout_gravity="center"
                 android:gravity="center_vertical|center_horizontal"
-                android:textSize="70sp"
+                android:textSize="80sp"
                 android:layout_margin="10sp"
                 android:textStyle="bold" />
 
@@ -42,28 +41,21 @@
             android:layout_width="fill_parent"
             android:layout_height="60sp"
             android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:background="@color/alarm_view_name">
 
-            <ImageView
-                android:layout_width="25sp"
-                android:layout_height="25sp"
-                android:src="@drawable/rename"
-                android:layout_marginRight="13sp"
-                android:layout_marginEnd="13sp"
-                android:layout_marginLeft="10sp"
-                android:layout_marginStart="10sp"/>
-
-            <EditText
+            <TextView
                 android:id="@+id/alarm_name"
                 android:layout_width="fill_parent"
-                android:layout_height="42sp"
-                android:background="@color/white"
-                android:layout_marginLeft="13sp"
+                android:layout_height="50sp"
+                android:layout_marginLeft="20sp"
                 android:layout_marginRight="13sp"
-                android:hint="Name"
                 android:typeface="sans"
                 android:layout_gravity="center_vertical"
-                android:textSize="15sp" />
+                android:textSize="25sp"
+                android:textColor="@color/white"
+                android:gravity="center_vertical"
+                android:text="(no title)" />
         </LinearLayout>
 
         <View
@@ -80,28 +72,31 @@
             android:layout_width="fill_parent"
             android:layout_height="60sp"
             android:orientation="horizontal"
-            android:gravity="center_vertical">
-
-        <ImageView
-            android:layout_width="25sp"
-            android:layout_height="25sp"
-            android:src="@drawable/recurrence"
-            android:layout_marginLeft="10sp"
-            android:layout_marginStart="10sp"
-            android:layout_marginRight="13sp"
-            android:layout_marginEnd="13sp"/>
-
-        <TextView
-            android:id="@+id/alarm_recurrence"
-            android:layout_width="fill_parent"
-            android:layout_height="42sp"
-            android:background="@color/white"
-            android:layout_marginLeft="13sp"
-            android:layout_marginRight="13sp"
-            android:typeface="sans"
-            android:layout_gravity="center_vertical"
             android:gravity="center_vertical"
-            android:textSize="15sp" />
+            android:layout_marginLeft="10sp"
+            android:layout_marginRight="10sp">
+
+            <ImageView
+                android:layout_width="25sp"
+                android:layout_height="25sp"
+                android:src="@drawable/recurrence"
+                android:layout_marginLeft="10sp"
+                android:layout_marginStart="10sp"
+                android:layout_marginRight="13sp"
+                android:layout_marginEnd="13sp"/>
+
+            <TextView
+                android:id="@+id/alarm_recurrence"
+                android:layout_width="fill_parent"
+                android:layout_height="42sp"
+                android:background="@color/white"
+                android:layout_marginLeft="13sp"
+                android:layout_marginRight="13sp"
+                android:typeface="sans"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:textSize="15sp"
+                android:text="Recurrence" />
 
         </LinearLayout>
 
@@ -119,7 +114,9 @@
             android:layout_width="fill_parent"
             android:layout_height="60sp"
             android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:layout_marginLeft="10sp"
+            android:layout_marginRight="10sp">
 
             <ImageView
                 android:layout_width="25sp"
@@ -133,24 +130,20 @@
             <TextView
                 android:id="@+id/alarm_location"
                 android:layout_width="wrap_content"
-                android:layout_height="42sp"
+                android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:layout_marginLeft="13sp"
                 android:layout_marginRight="13sp"
-
-                android:ellipsize="marquee"
+                android:text="No location"
                 android:fadingEdge="horizontal"
                 android:marqueeRepeatLimit="marquee_forever"
                 android:singleLine="true"
                 android:focusable="true"
-                android:maxLines="1"
-
-                android:text="Location"
+                android:maxLines="4"
                 android:typeface="sans"
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
-                android:textSize="15sp" />
-
+                android:textSize="15sp"/>
         </LinearLayout>
 
         <View
@@ -166,7 +159,9 @@
             android:layout_width="fill_parent"
             android:layout_height="60sp"
             android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:layout_marginLeft="10sp"
+            android:layout_marginRight="10sp">
 
             <ImageView
                 android:layout_width="25sp"
@@ -177,17 +172,18 @@
                 android:layout_marginLeft="10sp"
                 android:layout_marginStart="10sp"/>
 
-            <EditText
+            <TextView
                 android:id="@+id/alarm_description"
                 android:layout_width="fill_parent"
                 android:layout_height="42sp"
+                android:background="@color/white"
                 android:layout_marginLeft="13sp"
                 android:layout_marginRight="13sp"
-                android:hint="Description"
                 android:typeface="sans"
                 android:layout_gravity="center_vertical"
                 android:textSize="15sp"
-                android:background="@color/white" />
+                android:text="No Description"
+                android:gravity="center_vertical" />
         </LinearLayout>
 
         <View
@@ -203,7 +199,9 @@
             android:layout_width="fill_parent"
             android:layout_height="60sp"
             android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:layout_marginLeft="10sp"
+            android:layout_marginRight="10sp">
 
             <ImageView
                 android:layout_width="25sp"
@@ -225,7 +223,7 @@
                 android:typeface="sans"
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
-                android:textSize="15sp" />
+                android:textSize="15sp"/>
 
         </LinearLayout>
 
@@ -239,3 +237,4 @@
     </RelativeLayout>
 
 </ScrollView>
+
