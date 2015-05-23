@@ -5,20 +5,16 @@
 
         <!-- Customize your theme here. -->
         <item name="android:windowContentOverlay">@null</item>
-        <item name="colorPrimary">@color/orange_colorPrimary</item>
-        <item name="colorPrimaryDark">@color/orange_colorPrimaryDark</item>
-        <item name="colorAccent">@color/orange_alpha_colorPrimaryDark</item>
-        <item name="android:textColor">@color/orange_alpha_colorPrimaryDark</item>
-        <item name="android:textColorHint">@color/orange_alpha_colorPrimaryDark</item>
-        <item name="colorControlNormal">@color/orange_alpha_colorPrimaryDark</item>
-        <item name="colorControlActivated">@color/orange_alpha_colorPrimaryDark</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textColorHint">@color/colorAccent</item>
+        <item name="colorControlNormal">@color/colorAccent</item>
+        <item name="colorControlActivated">@color/colorAccent</item>
         <item name="colorControlHighlight">@color/ripple_material_light</item>
 
-        <item name="popupMenuStyle">@style/popUpMenu</item>
-
-
     </style>
-
 
 
     <!--Here will be the theme of the class that will extends NavigationLiveo-->
@@ -30,13 +26,6 @@
         <item name="colorAccent">@color/orange_alpha_colorPrimaryDark</item>
         <item name="android:textColor">@color/orange_alpha_colorPrimaryDark</item>
         <item name="colorControlHighlight">@color/orange_alpha_colorPrimaryDark</item>
-
-        <item name="android:popupMenuStyle">@style/popUpMenu</item>
-
-    </style>
-
-    <style name="popUpMenu" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:popupBackground">@color/white</item>
     </style>
 
     <style name="Divider">

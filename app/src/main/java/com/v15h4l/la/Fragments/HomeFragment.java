@@ -15,7 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.shamanland.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionButton;
 import com.v15h4l.la.Database.AlarmDBHelper;
 import com.v15h4l.la.Prefs.PreferenceActivity;
 import com.v15h4l.la.R;
@@ -50,7 +50,6 @@ public class HomeFragment extends ListFragment {
         setListAdapter(mAdapter);
 
 
-
     }
 
     @Override
@@ -79,8 +78,8 @@ public class HomeFragment extends ListFragment {
                 rootView.findViewById(R.id.header).setBackgroundResource(R.drawable.wall_day);
             break;
         }
-        FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
-        Log.v("Home Fragment: ColorList: ",fab.getColorStateList()+"");
+
+        FloatingActionButton fab = ((FloatingActionButton) rootView.findViewById(R.id.fab));
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -189,12 +188,9 @@ public class HomeFragment extends ListFragment {
 
             case 1:
                 if (resultCode == Activity.RESULT_OK){
-                    switch (requestCode){
-                        case 1:
+
                             mAdapter.setAlarms(dbHelper.getAlarms());
                             mAdapter.notifyDataSetChanged();
-                            break;
-                    }
                 }
             break;
 

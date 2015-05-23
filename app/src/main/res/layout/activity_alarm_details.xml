@@ -63,7 +63,9 @@
                 android:hint="Name"
                 android:typeface="sans"
                 android:layout_gravity="center_vertical"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:textIsSelectable="false"
+                android:textColor="@color/colorAccent" />
         </LinearLayout>
 
         <View
@@ -187,7 +189,8 @@
                 android:typeface="sans"
                 android:layout_gravity="center_vertical"
                 android:textSize="15sp"
-                android:background="@color/white" />
+                android:background="@color/white"
+                android:textColor="@color/colorAccent" />
         </LinearLayout>
 
         <View

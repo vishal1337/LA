@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -16,9 +17,6 @@ import com.v15h4l.la.model.Alarm;
 
 import java.util.List;
 
-/**
- * Created by v15h4l on 4/21/2015.
- */
 public class AlarmListAdapter extends BaseAdapter {
 
     private final String TAG = AlarmListAdapter.class.getSimpleName();
@@ -79,6 +77,11 @@ public class AlarmListAdapter extends BaseAdapter {
 
         final Alarm alarm = (Alarm) getItem(position);
 
+        if (!alarm.location_lon.equals("0") && !alarm.location_lat.equals("0")) {
+            ((ImageView) convertView.findViewById(R.id.img_alarm_type)).setImageResource(R.drawable.img_alarm_type_location);
+        }else{
+            ((ImageView) convertView.findViewById(R.id.img_alarm_type)).setImageResource(R.drawable.img_alarm_type_normal);
+        }
         ((TextView) convertView.findViewById(R.id.alarm_item_time)).setText(String.format("%02d:%02d",alarm.timeHour,alarm.timeMinute));
         if(!alarm.name.isEmpty()){ ((TextView) convertView.findViewById(R.id.alarm_item_name)).setText(alarm.name); }
         updateTextColor((TextView) convertView.findViewById(R.id.alarm_item_sunday), alarm.getRepeatingDay(Alarm.SUNDAY));

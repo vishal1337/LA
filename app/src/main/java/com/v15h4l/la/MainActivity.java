@@ -2,11 +2,12 @@ package com.v15h4l.la;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 
+import com.v15h4l.la.Fragments.AboutUsFragment;
 import com.v15h4l.la.Fragments.HomeFragment;
-import com.v15h4l.la.Fragments.SettingsFragment;
 import com.v15h4l.la.Prefs.PreferenceActivity;
 
 import java.util.ArrayList;
@@ -45,12 +46,12 @@ public class MainActivity extends NavigationLiveo implements NavigationLiveoList
 		// name of the list items
 		List<String> mListNameItem = new ArrayList<>();
 		mListNameItem.add(0, getString(R.string.alarms));
-		mListNameItem.add(1, getString(R.string.locations));;
+		mListNameItem.add(1, getString(R.string.about));;
 
 		// icons list items
 		List<Integer> mListIconItem = new ArrayList<>();
         mListIconItem.add(0, R.drawable.ic_clock);
-        mListIconItem.add(1, R.drawable.ic_location);
+        mListIconItem.add(1, R.drawable.ic_about);
 
 		//If not please use the FooterDrawer use the setFooterVisible(boolean visible) method with value false
 		this.setFooterInformationDrawer(R.string.action_settings, R.drawable.ic_settings);
@@ -59,7 +60,14 @@ public class MainActivity extends NavigationLiveo implements NavigationLiveoList
 
 	}
 
-	@Override
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_MENU)
+            return false;
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
 	public void onItemClickNavigation(int position, int layoutContainer) {
 
         switch (position){
@@ -68,7 +76,7 @@ public class MainActivity extends NavigationLiveo implements NavigationLiveoList
             break;
 
             case 1:
-                getFragmentManager().beginTransaction().replace(R.id.container, new SettingsFragment()).commit();
+                getFragmentManager().beginTransaction().replace(R.id.container, new AboutUsFragment()).commit();
                 break;
         }
 	}

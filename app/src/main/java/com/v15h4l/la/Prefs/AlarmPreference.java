@@ -22,12 +22,12 @@ public class AlarmPreference {
     }
 
     // By Default returns 5 as area radius
-    public int getRadius(){
-        return sharedPreferences.getInt(RADIUS, 500);
+    public String getRadius(){
+        return sharedPreferences.getString(RADIUS, "500");
     }
 
-    public void setRadius(int radius){
-        editor.putInt(RADIUS, radius);
+    public void setRadius(String radius){
+        editor.putString(RADIUS, radius);
         editor.apply();
     }
 }

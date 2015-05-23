@@ -5,22 +5,17 @@
     android:layout_width="match_parent"
     android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/alarm_item_time"
-        android:layout_width="100sp"
-        android:layout_height="80sp"
-        android:text="00:00"
-        android:textSize="40sp"
-        android:layout_gravity="center"
-        android:gravity="center_vertical|center_horizontal"
-        android:typeface="sans"
-        android:layout_marginLeft="10sp"
-        android:layout_marginRight="10sp"
-        android:layout_marginBottom="10sp"
-        android:textColor="@color/time" />
+    <ImageView
+        android:id="@+id/img_alarm_type"
+        android:src="@drawable/img_alarm_type_normal"
+        android:contentDescription="Alarm Type"
+        android:layout_width="50sp"
+        android:layout_height="90sp"
+        android:padding="15sp" />
 
     <LinearLayout
-        android:layout_toRightOf="@+id/alarm_item_time"
+        android:layout_toRightOf="@+id/img_alarm_type"
+        android:layout_toEndOf="@+id/img_alarm_type"
         android:layout_height="fill_parent"
         android:layout_width="fill_parent"
         android:orientation="vertical"
@@ -36,13 +31,30 @@
             android:gravity="center_vertical|bottom"
             android:typeface="sans"
             android:textSize="20sp"
-            android:textColor="@color/time_light"
+            android:textColor="@color/colorPrimaryDark"
             android:layout_marginTop="5sp" />
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="45sp"
             android:orientation="horizontal">
+
+
+            <TextView
+                android:id="@+id/alarm_item_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="00:00"
+                android:typeface="sans"
+                android:layout_marginTop="5sp"
+                android:textColor="@color/purple_200" />
+
+            <TextView
+                android:id="@+id/divider_time"
+                android:text=" | "
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5sp" />
 
             <TextView
                 android:id="@+id/alarm_item_sunday"
@@ -51,7 +63,7 @@
                 android:text="S"
                 android:typeface="sans"
                 android:layout_marginTop="5sp"
-                android:textColor="@color/purple_200" />
+                android:textColor="@color/grey" />
 
             <TextView
                 android:id="@+id/alarm_item_monday"
@@ -61,7 +73,7 @@
                 android:typeface="sans"
                 android:layout_marginLeft="5sp"
                 android:layout_marginTop="5sp"
-                android:textColor="@color/purple_200" />
+                android:textColor="@color/grey" />
 
             <TextView
                 android:id="@+id/alarm_item_tuesday"
@@ -71,7 +83,7 @@
                 android:typeface="sans"
                 android:layout_marginLeft="5sp"
                 android:layout_marginTop="5sp"
-                android:textColor="@color/purple_200" />
+                android:textColor="@color/grey" />
 
             <TextView
                 android:id="@+id/alarm_item_wednesday"
@@ -81,7 +93,7 @@
                 android:typeface="sans"
                 android:layout_marginLeft="5sp"
                 android:layout_marginTop="5sp"
-                android:textColor="@color/purple_200" />
+                android:textColor="@color/grey" />
 
             <TextView
                 android:id="@+id/alarm_item_thursday"
@@ -91,7 +103,7 @@
                 android:typeface="sans"
                 android:layout_marginLeft="5sp"
                 android:layout_marginTop="5sp"
-                android:textColor="@color/purple_200" />
+                android:textColor="@color/grey" />
 
             <TextView
                 android:id="@+id/alarm_item_friday"
@@ -101,7 +113,7 @@
                 android:typeface="sans"
                 android:layout_marginLeft="5sp"
                 android:layout_marginTop="5sp"
-                android:textColor="@color/purple_200" />
+                android:textColor="@color/grey" />
 
             <TextView
                 android:id="@+id/alarm_item_saturday"
@@ -111,7 +123,7 @@
                 android:typeface="sans"
                 android:layout_marginLeft="5sp"
                 android:layout_marginTop="5sp"
-                android:textColor="@color/purple_200" />
+                android:textColor="@color/grey" />
 
         </LinearLayout>
 

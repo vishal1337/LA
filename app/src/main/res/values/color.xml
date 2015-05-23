@@ -39,9 +39,9 @@
     <color name="purple_700">#ff7c21a2</color>
     <color name="purple_800">#ff6b1d9b</color>
 
-    <color name="colorPrimary">#ffba69c8</color>
-    <color name="colorPrimaryDark">#ff6c1f9c</color>
-    <color name="colorAccent">#ffba69c8</color>
+    <color name="colorPrimary">@color/orange_colorPrimary</color>
+    <color name="colorPrimaryDark">@color/orange_colorPrimaryDark</color>
+    <color name="colorAccent">@color/orange_alpha_colorPrimaryDark</color>
 
     <color name="white">#ffffff</color>
     <color name="grey">#e0e0e0</color>

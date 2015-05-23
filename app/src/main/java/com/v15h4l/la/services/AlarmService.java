@@ -30,10 +30,10 @@ public class AlarmService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
+        preference = new AlarmPreference(getBaseContext());
         Log.i(TAG, "onStartCommand was Called");
 
         if (intent != null) {
-            preference = new AlarmPreference(getBaseContext());
 
             Location myLocation;
             Location destinationLocation;
@@ -72,9 +72,9 @@ public class AlarmService extends Service {
     }
 
     private Boolean isWithinArea(Location myLocation, Location destinationLocation){
-        Log.v("Service test","Distance: "+myLocation.distanceTo(destinationLocation)+", Radius: "+preference.getRadius());
+        Log.v("Service test","Distance: "+myLocation.distanceTo(destinationLocation)+", Radius: "+ Integer.parseInt(preference.getRadius()));
 
-        if (myLocation.distanceTo(destinationLocation) <= preference.getRadius()){
+        if (myLocation.distanceTo(destinationLocation) <= Integer.parseInt(preference.getRadius())){
             return true;
         }
         return false;

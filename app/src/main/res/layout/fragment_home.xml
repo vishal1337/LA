@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -10,10 +10,22 @@
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:background="@color/purple_50"
-        android:text="Good Evening!"
-        android:gravity="center"
-        android:textSize="30dp" />
+        android:background="@color/purple_50" />
+
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_below="@+id/header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_action_add"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="16sp"
+        android:layout_marginEnd="16sp"
+        android:layout_marginTop="-45sp"
+        fab:fab_colorNormal="#fff"
+        fab:fab_colorPressed="#000"
+        fab:fab_colorRipple="#f1f"/>
 
     <ListView
         android:id="@android:id/list"
@@ -23,19 +35,6 @@
         android:longClickable="true"
         android:paddingTop="30px">
     </ListView>
-
-    <com.shamanland.fab.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_action_add"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignBottom="@id/header"
-        android:layout_marginBottom="@dimen/floating_action_button_margin_normal_minus"
-        android:layout_marginRight="@dimen/floating_action_button_margin_normal"
-        android:layout_marginEnd="@dimen/floating_action_button_margin_normal"
-        app:floatingActionButtonSize="normal" />
 
     <TextView
         android:id="@android:id/empty"

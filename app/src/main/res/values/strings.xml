@@ -5,13 +5,16 @@
     <string name="drawer_close">Slider Menu Closed</string>
 
     <string name="alarms">Alarm</string>
-    <string name="locations">Locations</string>
+    <string name="about">About</string>
+    <string name="version">v 1.0</string>
+    <string name="copyright">© v15h4l </string>
 
     <!-- Content Description -->
     <string name="desc_list_item_icon">Item Icon</string>
     <string name="title_activity_splash">LA</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="add_alarm">New Alarm</string>
+    <string name="preferences_key">toggleEnable</string>
 
     <!-- Alarm-->
     <string name="No_Alarms_Message">No Alarms!</string>
