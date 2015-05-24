@@ -72,9 +72,8 @@ public class AlarmService extends Service {
     }
 
     private Boolean isWithinArea(Location myLocation, Location destinationLocation){
-        Log.v("Service test","Distance: "+myLocation.distanceTo(destinationLocation)+", Radius: "+ Integer.parseInt(preference.getRadius()));
 
-        if (myLocation.distanceTo(destinationLocation) <= Integer.parseInt(preference.getRadius())){
+        if (myLocation.distanceTo(destinationLocation) <= 1000){
             return true;
         }
         return false;
